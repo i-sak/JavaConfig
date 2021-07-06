@@ -23,16 +23,24 @@
                             <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
                                 <thead>
                                     <tr>
-                                        <th>Rendering engine</th>
-                                        <th>Browser</th>
-                                        <th>Platform(s)</th>
-                                        <th>Engine version</th>
-                                        <th>CSS grade</th>
+                                        <th>#no</th>
+                                        <th>title</th>
+                                        <th>writer</th>
+                                        <th>insertDate</th>
+                                        <th>updateDate/th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    
-                                </tbody>
+								
+								<c:forEach items="${list}" var="board">
+								<tr>
+									<td><c:out value="${board.seq_bno}" /></td>
+									<td><c:out value="${board.title}" /></td>
+									<td><c:out value="${board.writer}" /></td>
+									<td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.regdate}"  /></td>
+									<td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.updatedate}"  /></td>
+								</tr>
+								</c:forEach>
+								
                             </table>
                             <!-- /.table-responsive -->
 
