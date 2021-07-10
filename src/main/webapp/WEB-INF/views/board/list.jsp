@@ -53,4 +53,13 @@
             </div>
             <!-- /.row -->
             
+            <script type="text/javascript">
+            $(document).ready(function() {
+            	var result = "<c:out value='${result}' />";
+            	if (result != '') {
+            		alert('데이터가 등록되었습니다. 게시물 번호:'+result);
+            	}
+            });
+            </script>
+            
 <%@include file="../includes/footer.jsp" %>
