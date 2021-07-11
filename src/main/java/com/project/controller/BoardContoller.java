@@ -40,11 +40,12 @@ public class BoardContoller {
 		return "redirect:/board/list";
 	}
 	
-	@GetMapping("/get")
+	@GetMapping({"/get", "/modify"})
 	public void get(@RequestParam("seq_bno") Long seq_bno, Model model) {
 		log.info("/get");
 		model.addAttribute("board", service.get(seq_bno));
 	}
+	
 	@PostMapping("/modify")
 	public String modify(BoardVO board, RedirectAttributes rttr) {
 		log.info("modify:"+board);
@@ -53,6 +54,7 @@ public class BoardContoller {
 		}
 		return "redirect:/board/list";
 	}
+	
 	@PostMapping("/remove")
 	public String remove(@RequestParam("seq_bno") Long seq_bno, RedirectAttributes rttr) {
 		log.info("remove : " + seq_bno);
