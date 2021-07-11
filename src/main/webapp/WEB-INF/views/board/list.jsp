@@ -37,7 +37,11 @@
 								<c:forEach items="${list}" var="board">
 								<tr>
 									<td><c:out value="${board.seq_bno}" /></td>
-									<td><c:out value="${board.title}" /></td>
+									<td>
+										<a href='/board/get?seq_bno=<c:out value="${board.seq_bno }"/>'>
+											<c:out value="${board.title}" />
+										</a>
+									</td>
 									<td><c:out value="${board.writer}" /></td>
 									<td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.regdate}"  /></td>
 									<td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.updatedate}"  /></td>
