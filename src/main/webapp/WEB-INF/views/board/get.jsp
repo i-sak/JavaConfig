@@ -45,8 +45,10 @@
                  			value='<c:out value="${board.writer }" />' readonly="readonly">
                  	</div>
                  	
-                 	<button data-oper="modify" class="btn btn-default">Modify</button>
-                 	<button data-oper="list" class="btn btn-default">List</button>
+                 	<button data-oper="modify" class="btn btn-default"
+                 	onclick="location.href='/board/modify?seq_bno=<c:out value="${board.seq_bno }" />'">Modify</button>
+                 	<button data-oper="list" class="btn btn-default"
+                 	onclick="location.href='/board/list'">List</button>
                  	
 				</div>
             	<!-- /.panel-body -->
