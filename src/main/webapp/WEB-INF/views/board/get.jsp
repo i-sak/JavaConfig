@@ -44,12 +44,14 @@
                  		<input class="form-control" name="writer"
                  			value='<c:out value="${board.writer }" />' readonly="readonly">
                  	</div>
+                 	 
+                 	<button data-oper="modify" class="btn btn-default">Modify</button>
+                 	<button data-oper="list" class="btn btn-default">List</button>
                  	
-                 	<button data-oper="modify" class="btn btn-default"
-                 	onclick="location.href='/board/modify?seq_bno=<c:out value="${board.seq_bno }" />'">Modify</button>
-                 	<button data-oper="list" class="btn btn-default"
-                 	onclick="location.href='/board/list'">List</button>
-                 	
+                 	 <form id="openForm" action="/board/modify" method="get">
+                 	 	<input type="hidden" id="seq_bno" value='<c:out value="${board.seq_bno }" />' />
+                 	 </form>
+                 	 
 				</div>
             	<!-- /.panel-body -->
 			</div>	
@@ -59,4 +61,18 @@
 	</div>
 	<!-- /.row -->
 	
+	<script type="text/javascript">
+	$(document).ready(function() {
+		var openForm = $("#openForm");
+		$("button[data-oper='modify']").on("click", function(e) {
+			openForm.attr("action", "/board/modify").submit();
+		});
+		$("button[data-oper='list']").on("click", function(e) {
+			openForm.find("#seq_bno").remove();
+			openForm.attr("action", "/board/list").submit();
+		});
+		
+	});
+	</script>
+                 	 
 <%@include file="../includes/footer.jsp" %>
