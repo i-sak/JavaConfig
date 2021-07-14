@@ -43,16 +43,16 @@
 	
 	</update>
 	
-	<select id="getListWithPaging" resultType="com.project.domian.BoardVO">
+	<select id="getListWithPaging" resultType="com.project.domain.BoardVO">
 		<![CDATA[
-		SELECT *
+		SELECT seq_bno, title, content, writer, regdate, updatedate
 			FROM (
 			    SELECT @ROWNUM := @ROWNUM + 1 as rnum, seq_bno, title, content, writer, regdate, updatedate
 			    FROM tb_board, (SELECT @ROWNUM :=0) A
 			    ORDER BY seq_bno DESC
 			    ) RESULT
-			WHERE rnum > 0
-			LIMIT 10
+			WHERE rnum > (#{pageNum } - 1) * #{amount}
+			LIMIT #{amount}
 		]]>
 	</select>
 	
