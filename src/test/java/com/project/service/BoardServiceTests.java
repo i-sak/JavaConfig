@@ -10,6 +10,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.project.config.RootConfig;
 import com.project.domain.BoardVO;
+import com.project.domain.Criteria;
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -22,12 +23,20 @@ public class BoardServiceTests {
 	
 	@Setter(onMethod_ = @Autowired)
 	private BoardService service;
-	
+	/*
 	@Test
 	public void testExist() {
 		log.info(service);
 		assertNotNull(service);
 	}
+	*/
+	
+	@Test
+	public void testGetList() {
+		service.getList(new Criteria(2, 10)).forEach(board->log.info(board));
+	}
+	
+	
 	/*
 	@Test
 	public void testRegister() {
@@ -50,7 +59,7 @@ public class BoardServiceTests {
 		log.info(service.get(1L)); 
 	}
 	*/
-	
+	/*
 	@Test
 	public void testModify() {
 		BoardVO board = service.get(1L);
@@ -65,7 +74,7 @@ public class BoardServiceTests {
 	public void testRemove() {
 		log.info("REMOVE RESULT : " + service.remove(2L)); 
 	}
-	
+	*/
 }
 
 
