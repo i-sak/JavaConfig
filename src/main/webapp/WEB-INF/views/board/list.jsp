@@ -38,7 +38,7 @@
 								<tr>
 									<td><c:out value="${board.seq_bno}" /></td>
 									<td>
-										<a href='/board/get?seq_bno=<c:out value="${board.seq_bno }"/>'>
+										<a class="move" href='<c:out value="${board.seq_bno }"/>'>
 											<c:out value="${board.title}" />
 										</a>
 									</td>
@@ -149,6 +149,14 @@
             		e.preventDefault();
             		console.log("click");
             		actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+            		actionForm.submit();
+            	});
+            	
+            	$(".move").on("click", function(e) {
+            		e.preventDefault();
+            		actionForm.append
+            		("<input type='hidden' name='seq_bno' value='"+ $(this).attr("href")+"'>");
+            		actionForm.attr("action", "/board/get");
             		actionForm.submit();
             	});
             });
