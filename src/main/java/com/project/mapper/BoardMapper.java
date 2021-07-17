@@ -23,4 +23,6 @@ public interface BoardMapper {
 	public int delete(long seq_bno);
 	
 	public int update(BoardVO board);
+	
+	public int getTotalCount(Criteria cri);
 }

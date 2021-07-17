@@ -29,7 +29,13 @@ public class BoardContoller {
 		log.info("list : " + cri);
 		/*model.addAttribute("list", service.getList());*/
 		model.addAttribute("list", service.getList(cri));
-		model.addAttribute("pageMaker", new PageDTO(cri, 123));
+		//model.addAttribute("pageMaker", new PageDTO(cri, 123));
+		
+		int total = service.getTotal(cri);
+		
+		log.info("total : " + total);
+		
+		model.addAttribute("pageMaker", new PageDTO(cri, total));
 	}
 	
 	@GetMapping("/register")
