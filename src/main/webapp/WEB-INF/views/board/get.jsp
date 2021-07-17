@@ -49,7 +49,12 @@
                  	<button data-oper="list" class="btn btn-default">List</button>
                  	
                  	 <form id="openForm" action="/board/modify" method="get">
-                 	 	<input type="hidden" id="seq_bno" name="seq_bno" value='<c:out value="${board.seq_bno }" />' />
+                 	 	<input type="hidden" id="seq_bno" name="seq_bno"
+                 	 		 value='<c:out value="${board.seq_bno }" />' />
+                 	 	<input type="hidden" name="pageNum" 
+                 	 		value='<c:out value="${cri.pageNum }"/>' />
+                	 	<input type="hidden" name="amount" 
+                 	 		value='<c:out value="${cri.amount }"/>' />
                  	 </form>
                  	 
 				</div>
