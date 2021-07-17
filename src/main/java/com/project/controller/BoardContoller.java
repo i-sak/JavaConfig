@@ -68,11 +68,17 @@ public class BoardContoller {
 	}
 	
 	@PostMapping("/remove")
-	public String remove(@RequestParam("seq_bno") Long seq_bno, RedirectAttributes rttr) {
+	public String remove(@RequestParam("seq_bno") Long seq_bno,
+			@ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
+		
 		log.info("remove : " + seq_bno);
 		if(service.remove(seq_bno)) {
 			rttr.addFlashAttribute("result", "success");
 		}
+		
+		rttr.addAttribute("pageNum", cri.getPageNum());
+		rttr.addAttribute("amount", cri.getAmount());
+		
 		return "redirect:/board/list";
 	}
 }
