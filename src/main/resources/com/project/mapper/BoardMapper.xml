@@ -48,11 +48,7 @@
 		SELECT seq_bno, title, content, writer, regdate, updatedate
 			FROM (
 			    SELECT @ROWNUM := @ROWNUM + 1 as rnum, seq_bno, title, content, writer, regdate, updatedate
-			    FROM tb_board, (SELECT @ROWNUM :=0) A
-			    
-			    -- 추가한 부분
-			    WHERE title LIKE '%테스트%'
-			    
+			    FROM tb_board, (SELECT @ROWNUM :=0) A			    
 			    ORDER BY seq_bno DESC
 			    ) RESULT
 			WHERE rnum > (#{pageNum } - 1) * #{amount}
