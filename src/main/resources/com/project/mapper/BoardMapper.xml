@@ -73,25 +73,7 @@
 			    FROM tb_board, (SELECT @ROWNUM :=0) A
 		]]>
 		<!--WHERE title LIKE '%테스트%' OR content LIKE '%등록%'-->
-		<where>
-			<trim prefixOverrides="OR">
-				<foreach item='type' collection="typeArr">
-					<trim prefix="OR">
-						<choose>
-							<when test="type == 'T'.toString() ">
-								title LIKE '%' #{keyword} '%'
-							</when>
-							<when test="type == 'C'.toString() ">
-								content like '%' #{keyword} '%'
-							</when>
-							<when test="type == 'W'.toString() ">
-								writer like '%' #{keyword} '%'
-							</when>
-						</choose>
-					</trim>
-				</foreach>
-			</trim>
-		</where>
+		<include refid="criteria"></include>
 		<![CDATA[			    			    
 			    ORDER BY seq_bno DESC
 			    ) RESULT
@@ -101,7 +83,15 @@
 	</select>
 	
 	<select id="getTotalCount" resultType="int">
-		select count(*) from tb_board where seq_bno > 0 
+		select count(*) from tb_board  
+		<where>
+			<trim prefix="and" prefixOverrides="where">
+				seq_bno > 0
+			</trim>
+			<trim prefix ="and" prefixOverrides="where">
+				<include refid="criteria"></include>
+			</trim>			
+		</where>
 	</select>
 	
 </mapper>

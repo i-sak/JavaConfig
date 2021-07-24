@@ -89,13 +89,23 @@ public class BoardMapperTests {
 	}
 	*/
 	
-	@Test
+	// 검색 조건 테스트
+	@Test 
 	public void testSearch() {
 		Criteria cri = new Criteria();
 		cri.setKeyword("등록");
 		cri.setType("TC");
 		List<BoardVO> list = mapper.getListWithPaging(cri);
 		list.forEach(board-> log.info(board));
+	}
+	
+	@Test
+	public void testCount() {
+		Criteria cri = new Criteria();
+		cri.setKeyword("등록");
+		cri.setType("TC");
+		int total = mapper.getTotalCount(cri);
+		log.info(total);
 	}
 	
 }
