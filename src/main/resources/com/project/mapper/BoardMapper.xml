@@ -43,18 +43,56 @@
 	
 	</update>
 	
+	<sql id="criteria">
+		<where>
+			<trim prefixOverrides="OR">
+				<foreach item='type' collection="typeArr">
+					<trim prefix="OR">
+						<choose>
+							<when test="type == 'T'.toString() ">
+								title LIKE '%' #{keyword} '%'
+							</when>
+							<when test="type == 'C'.toString() ">
+								content like '%' #{keyword} '%'
+							</when>
+							<when test="type == 'W'.toString() ">
+								writer like '%' #{keyword} '%'
+							</when>
+						</choose>
+					</trim>
+				</foreach>
+			</trim>
+		</where>
+	</sql>
+	
 	<select id="getListWithPaging" resultType="com.project.domain.BoardVO">
 		<![CDATA[
 		SELECT seq_bno, title, content, writer, regdate, updatedate
 			FROM (
 			    SELECT @ROWNUM := @ROWNUM + 1 as rnum, seq_bno, title, content, writer, regdate, updatedate
 			    FROM tb_board, (SELECT @ROWNUM :=0) A
-			    
-			    -- 변경 부분1
-			    -- WHERE title LIKE '%테스트%'
-			    -- 변경 부분2
-			    WHERE title LIKE '%테스트%' OR content LIKE '%등록%'
-			    			    
+		]]>
+		<!--WHERE title LIKE '%테스트%' OR content LIKE '%등록%'-->
+		<where>
+			<trim prefixOverrides="OR">
+				<foreach item='type' collection="typeArr">
+					<trim prefix="OR">
+						<choose>
+							<when test="type == 'T'.toString() ">
+								title LIKE '%' #{keyword} '%'
+							</when>
+							<when test="type == 'C'.toString() ">
+								content like '%' #{keyword} '%'
+							</when>
+							<when test="type == 'W'.toString() ">
+								writer like '%' #{keyword} '%'
+							</when>
+						</choose>
+					</trim>
+				</foreach>
+			</trim>
+		</where>
+		<![CDATA[			    			    
 			    ORDER BY seq_bno DESC
 			    ) RESULT
 			WHERE rnum > (#{pageNum } - 1) * #{amount}
