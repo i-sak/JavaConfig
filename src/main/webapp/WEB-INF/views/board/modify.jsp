@@ -26,6 +26,9 @@
                  		value='<c:out value="${cri.pageNum }"/>' >
 					<input type='hidden' name='amount' 
 						value='<c:out value="${cri.amount }"/>' >
+					<!-- 2021-07-25 조회 조건과 키워드 추가 -->
+					<input type="hidden" name="type" value='<c:out value="${cri.type }"/>'>
+                    <input type="hidden" name="keyword" value='<c:out value="${cri.keyword }"/>'>
 					
                  	<div class="form-group">
                  		<label>Bno</label>
