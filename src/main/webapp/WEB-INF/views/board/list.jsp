@@ -185,6 +185,14 @@
             		actionForm.attr("action", "/board/get");
             		actionForm.submit();
             	});
+            	
+            	
+            	// 검색 버튼 처리 이벤트
+            	var searchForm = $("#searchForm");
+            	
+            	$("#searchForm button").on("click", function(e){
+            		
+            	});
             });
             </script>
             
