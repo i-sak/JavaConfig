@@ -11,13 +11,14 @@
 	
 	<insert id="insert">
 		insert into tb_reply (seq_bno, reply, replyer)
-		values (#{seq_bno), #{reply}, #{replyer})
+		values (#{seq_bno}, #{reply}, #{replyer})
 	</insert>
 	
-	<!-- 
+	
 	<select id="read" resultType="com.project.domain.ReplyVO">
 		select * from tb_reply where seq_rno = #{seq_rno}
 	</select>
+	
 	
 	<delete id="delete">
 		delete from tb_reply where seq_rno = #{seq_rno}
@@ -29,5 +30,11 @@
 		, updateDate = CURDATE()
 		where seq_rno = #{seq_rno}
 	</update>
-	 -->
+	
+	<select id="getListWithPaging" 
+		resultType="com.project.domain.ReplyVO">
+	select * from tb_reply
+	where seq_bno = #{seq_bno}
+	order by seq_rno asc
+	</select>
 </mapper>
