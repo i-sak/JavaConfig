@@ -5,7 +5,29 @@
 <mapper namespace="com.project.mapper.ReplyMapper">
 	
 	<select id="getListAll" resultType="com.project.domain.ReplyVO">
-	select * from tb_reply
+		select * from tb_reply
 	</select>
 	
+	
+	<insert id="insert">
+		insert into tb_reply (seq_bno, reply, replyer)
+		values (#{seq_bno), #{reply}, #{replyer})
+	</insert>
+	
+	<!-- 
+	<select id="read" resultType="com.project.domain.ReplyVO">
+		select * from tb_reply where seq_rno = #{seq_rno}
+	</select>
+	
+	<delete id="delete">
+		delete from tb_reply where seq_rno = #{seq_rno}
+	</delete>
+	
+	<update id="update">
+		update tb_reply
+		set reply = #{reply}
+		, updateDate = CURDATE()
+		where seq_rno = #{seq_rno}
+	</update>
+	 -->
 </mapper>
