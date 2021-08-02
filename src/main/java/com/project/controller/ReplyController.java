@@ -59,4 +59,6 @@ public class ReplyController {
 		return new ResponseEntity<>(service.getList(cri, seq_bno), HttpStatus.OK);
 	}
 	
+	
+	
 }
