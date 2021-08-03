@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -59,6 +60,22 @@ public class ReplyController {
 		return new ResponseEntity<>(service.getList(cri, seq_bno), HttpStatus.OK);
 	}
 	
+	// 조회
+	@GetMapping(value = "/{seq_rno}",
+			produces = {MediaType.APPLICATION_XML_VALUE,
+								MediaType.APPLICATION_JSON_UTF8_VALUE	} )
+	public ResponseEntity<ReplyVO> get(@PathVariable("seq_rno") Long seq_rno) {
+		log.info("get : " + seq_rno);
+		return new ResponseEntity<>(service.get(seq_rno), HttpStatus.OK );
+	}
 	
+	// 삭제
+	@DeleteMapping(value= "/{seq_rno}", produces = {MediaType.TEXT_PLAIN_VALUE})
+	public ResponseEntity<String> remove(@PathVariable("seq_rno") Long seq_rno) {
+		log.info("remove : "+ seq_rno);
+		return service.remove(seq_rno) == 1
+				? new ResponseEntity<>("success", HttpStatus.OK)
+				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
 	
 }
