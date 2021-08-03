@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.domain.Criteria;
@@ -74,6 +75,24 @@ public class ReplyController {
 	public ResponseEntity<String> remove(@PathVariable("seq_rno") Long seq_rno) {
 		log.info("remove : "+ seq_rno);
 		return service.remove(seq_rno) == 1
+				? new ResponseEntity<>("success", HttpStatus.OK)
+				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	// 수정
+	@RequestMapping(method = { RequestMethod.PUT, RequestMethod.PATCH },
+			value = "/{seq_rno}",
+			consumes = "application/json",
+			produces = {MediaType.TEXT_PLAIN_VALUE})
+	public ResponseEntity<String> modify(
+			@RequestBody ReplyVO vo,
+			@PathVariable("seq_rno") int seq_rno) {
+		
+		vo.setSeq_rno(seq_rno);
+		log.info("seq_rno : "+seq_rno);
+		log.info("modify : "+vo);
+		
+		return service.modify(vo) == 1
 				? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
