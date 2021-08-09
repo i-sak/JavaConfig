@@ -70,7 +70,13 @@
 	<script type="text/javascript" src="/resources/js/reply.js"></script>
 	
 	<script type="text/javascript">
-	$(document).ready(function() {
+	$(document).ready(function() {	
+		console.log(replyService);
+	});
+	</script>
+	
+	<script type="text/javascript">
+	$(document).ready(function() {	
 		var openForm = $("#openForm");
 		$("button[data-oper='modify']").on("click", function(e) {
 			openForm.attr("action", "/board/modify").submit();
@@ -79,7 +85,6 @@
 			openForm.find("#seq_bno").remove();
 			openForm.attr("action", "/board/list").submit();
 		});
-		
 	});
 	</script>
                  	 

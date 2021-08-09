@@ -4,5 +4,8 @@
 
 console.log("Reply Module......");
 
-var replyService = {};
+var replyService = (function() {
+	return {name: "AAAA"};
+}) ();
+
 
