@@ -70,9 +70,23 @@
 	<script type="text/javascript" src="/resources/js/reply.js"></script>
 	
 	<script type="text/javascript">
+	/*
 	$(document).ready(function() {	
 		console.log(replyService);
 	});
+	*/
+	console.log("======================================");
+	console.log("JS TEST");
+	
+	var seq_bno = '<c:out value="${board.seq_bno}"/>';
+	// for replyService add test
+	replyService.add(
+		{reply : "JS Test", replyer : "tester", seq_bno:seq_bno}
+		,
+		function(result) {
+			alert("RESULT : "+result);
+		}
+	);
 	</script>
 	
 	<script type="text/javascript">
