@@ -67,24 +67,81 @@
 		<!-- /.col-lg-12 -->
 	</div>
 	<!-- /.row -->
+	
+	<!-- 댓글 영역 -->
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<i class="fa fa-comments fa-fw"></i> Reply
+				</div>
+				
+				<div class="panel-body">
+					<ul class="chat">
+						<!--  start reply -->
+						<li class="left clearfix" data-seq_rno='3'>
+							<div>
+								<div class="header">
+									<strong class="primary-font">user00</strong>
+									<small class="pull-right text-muted">2021-08-11 23:00</small>
+								</div>
+								<p>Good job!</p>
+							</div>
+						</li>
+					</ul>
+				</div>
+				<!-- /.panel-body -->
+			</div>
+			<!-- /.panel -->
+		</div>
+		<!-- /.col-lg-12 -->
+	</div>
+	<!-- /.row -->
+	
+	<!-- /. 댓글 영역 -->
+	
 	<script type="text/javascript" src="/resources/js/reply.js"></script>
 	
 	<script type="text/javascript">
-	/*
+	$(document).ready(function() {	
+		var seq_bno = '<c:out value="${board.seq_bno}"/>';
+		var replyUL = $(".chat");
+		
+		showList(1);
+		
+		function showList(page) {
+			replyService.getList({seq_bno:seq_bno, page : page || 1}, function(list) {
+				var str = "";
+				if(list == null || list.length == 0) {
+					replyUL.html(str);
+					return;
+				}
+				for( var i = 0, len = list.length || 0; i < len; i++) {
+					str += "<li class='left clearfix' data-seq_rno='"+ list[i].seq_rno +"'>";
+					str += "<div><div class='header'><strong class='primary-font'>"+list[i].replyer+"</strong>";
+					str += "<small class='pull-right text-muted'>"+list[i].replyDate+"</small>";
+					str += "</div><p>"+ list[i].reply +"</p></div></li>";
+				}
+				
+				replyUL.html(str);
+			});
+		} // showList
+	});
+	
+	
+
+	/* 테스트 
+	console.log("======================================");
+	console.log("JS TEST");
 	$(document).ready(function() {	
 		console.log(replyService);
 	});
-	*/
-	console.log("======================================");
-	console.log("JS TEST");
-	
-	var seq_bno = '<c:out value="${board.seq_bno}"/>';
 	
 	replyService.get(13 , function(data) {
 		console.log(data);
 	});
 	
-	
+	*/
 	// 2번 댓글 수정
 	/*
 	replyService.update({
