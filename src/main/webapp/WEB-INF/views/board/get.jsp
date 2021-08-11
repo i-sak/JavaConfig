@@ -80,12 +80,41 @@
 	
 	var seq_bno = '<c:out value="${board.seq_bno}"/>';
 	
+	replyService.get(13 , function(data) {
+		console.log(data);
+	});
+	
+	
+	// 2번 댓글 수정
+	/*
+	replyService.update({
+		seq_rno : 2,
+		seq_bno : seq_bno, // 777로 테스트
+		reply : "Modified Reply..."
+	}, function(result) {
+		alert("수정 완료...");
+	});
+	*/
+	
+	// 8번 댓글 삭제 테스트
+	/*
+	replyService.remove(8, function(count) {
+		console.log(count);
+		if(count === "success") {
+			alert("REMOVE");
+		}
+	}, function(err) {
+		alert("ERROR...");
+	});
+	*/
+	// for replyService getList test
+	/*
 	replyService.getList({seq_bno:seq_bno, page:1}, function(list) {
 		for(var i = 0, len = list.length||0; i < len; i++) {
 			console.log(list[i]);
 		}
 	});
-	
+	*/
 	
 	// for replyService add test
 	/*

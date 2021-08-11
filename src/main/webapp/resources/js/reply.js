@@ -43,9 +43,64 @@ var replyService = (function() {
 			});
 	}
 	
+	function remove(seq_rno, callback, error) {
+		$.ajax({
+			type : 'delete',
+			url : '/replies/' + seq_rno,
+			success : function(deleteResult, status, xhr) {
+				if (callback) {
+					callback(deleteResult);
+				}
+			},
+			error : function(xhr, status, err) {
+				if (error) {
+					error(err);
+				}
+			}
+		});
+	}
+	
+	function update(reply, callback, error) {
+		console.log("seq_rno : "+ reply.seq_rno);
+		
+		$.ajax({
+			type : 'put',
+			url : '/replies/' + reply.seq_rno,
+			data : JSON.stringify(reply),
+			contentType : "application/json; charset=utf-8",
+			success : function(result, status, xhr) {
+				if (callback) {
+					callback(result);
+				}
+			},
+			error : function(xhr, status, err) {
+				if(error) {
+					error(err);
+				}
+			}
+		});
+		
+	}
+	
+	function get(seq_rno, callback, error) {
+		
+		$.get("/replies/" + seq_rno + ".json", function(result) {
+			if(callback) {
+				callback(result);
+			}
+		}).fail(function(xhr, status, err) {
+			if(error) {
+				error();
+			}
+		});
+	}
+	
 	return {
 		add : add,
-		getList : getList
+		getList : getList,
+		remove : remove,
+		update : update,
+		get : get
 	}; 
 }) ();
 
