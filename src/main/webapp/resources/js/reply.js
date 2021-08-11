@@ -26,9 +26,26 @@ var replyService = (function() {
 			}
 		})
 	}
+
+	function getList(param, callback, error) {
+		var seq_bno = param.seq_bno;
+		var page = param.page || 1 ;
+		
+		$.getJSON("/replies/pages/"+seq_bno+"/"+page+".json",
+			function(data) {
+				if (callback) {
+					callback(data);
+				}
+			}).fail(function(xhr, status, err) {
+				if (error) {
+					error();
+				}
+			});
+	}
 	
 	return {
-		add : add
+		add : add,
+		getList : getList
 	}; 
 }) ();
 

@@ -79,7 +79,16 @@
 	console.log("JS TEST");
 	
 	var seq_bno = '<c:out value="${board.seq_bno}"/>';
+	
+	replyService.getList({seq_bno:seq_bno, page:1}, function(list) {
+		for(var i = 0, len = list.length||0; i < len; i++) {
+			console.log(list[i]);
+		}
+	});
+	
+	
 	// for replyService add test
+	/*
 	replyService.add(
 		{reply : "JS Test", replyer : "tester", seq_bno:seq_bno}
 		,
@@ -87,6 +96,8 @@
 			alert("RESULT : "+result);
 		}
 	);
+	*/
+	
 	</script>
 	
 	<script type="text/javascript">
