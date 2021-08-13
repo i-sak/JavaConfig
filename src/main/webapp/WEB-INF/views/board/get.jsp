@@ -198,6 +198,26 @@
 			});
 		});
 		
+		// 댓글 항목 li에 click 이벤트 위임
+		$(".chat").on("click", "li", function(e) {
+			var seq_rno = $(this).data("seq_rno");
+			
+			replyService.get(seq_rno, function(reply) {
+				modalInputReply.val(reply.reply);
+				modalInputReplyer.val(reply.replyer);
+				modalInputReplyDate.val(replyService.displayTime(reply.updateDate))
+				.attr("readonly", "readonly");
+				modal.data("seq_rno", reply.seq_rno);
+				
+				modal.find("button[ id != 'modalCloseBtn']").hide();
+				modalModBtn.show();
+				modalRemoveBtn.show();
+				
+				modal.modal("show");
+			});
+		});
+		
+		
 	});
 	
 	
