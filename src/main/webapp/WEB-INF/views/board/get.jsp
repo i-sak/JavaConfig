@@ -126,7 +126,7 @@
                 <div class="modal-footer">
                     <button id="modalModBtn" type="button" class="btn btn-warning">Modify</button>
                     <button id="modalRemoveBtn" type="button" class="btn btn-danger">Remove</button>
-                    <button id="modalRegisterBtn" type="button" class="btn btn-default">Register</button>
+                    <button id="modalRegisterBtn" type="button" class="btn btn-primary">Register</button>
                     <button id="modalCloseBtn" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </div>
@@ -170,9 +170,9 @@
 		var modalInputReplyDate = modal.find("input[name='replyDate']");
 		
 		var modalModBtn = $("#modalModBtn");
-		var modalRemoveBtn = $("modalRemoveBtn");
-		var modalRegisterBtn = $("modalRegisterBtn");
-		var modalCloseBtn = $("modalCloseBtn");
+		var modalRemoveBtn = $("#modalRemoveBtn");
+		var modalRegisterBtn = $("#modalRegisterBtn");
+		var modalCloseBtn = $("#modalCloseBtn");
 		
 		$("#addReplyBtn").on("click", function(e) {
 			modal.find("input").val("");
@@ -181,6 +181,21 @@
 			modalRegisterBtn.show();
 			
 			modal.modal("show");
+		});
+		
+		modalRegisterBtn.on("click", function(e) {
+			var reply = {
+				reply : modalInputReply.val(),
+				replyer : modalInputReplyer.val(),
+				seq_bno : seq_bno
+			};
+			replyService.add(reply, function(result) {
+				alert(result);
+				modal.find("input").val("");
+				modal.modal("hide");
+				
+				showList(1);
+			});
 		});
 		
 	});
