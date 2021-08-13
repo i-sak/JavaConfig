@@ -217,6 +217,26 @@
 			});
 		});
 		
+		// 댓글 수정
+		modalModBtn.on("click", function(e) {
+			var reply = {seq_rno : modal.data("seq_rno"), reply:modalInputReply.val()};
+			replyService.update(reply, function(result) {
+				alert(result);
+				modal.modal("hide");
+				showList(1);
+			});
+		}); 
+
+		// 삭제
+		modalRemoveBtn.on("click", function(e) {
+			var seq_rno = modal.data("seq_rno");
+			replyService.remove(seq_rno, function(result) {
+				alert(result);
+				modal.modal("hide");
+				showList(1);
+			});
+		}); 
+		
 		
 	});
 	
