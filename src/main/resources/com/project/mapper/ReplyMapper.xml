@@ -33,8 +33,21 @@
 	
 	<select id="getListWithPaging" 
 		resultType="com.project.domain.ReplyVO">
-	select * from tb_reply
+	<!-- select * from tb_reply
 	where seq_bno = #{seq_bno}
-	order by seq_rno asc
+	order by seq_rno asc -->
+	<![CDATA[
+		SELECT *
+		FROM
+		(
+			SELECT
+				@rn := @rn + 1 AS RN , A.* 
+			FROM tb_reply AS A USE INDEX (idx_reply)
+			CROSS JOIN (SELECT @rn := 0 ) AS R 
+			WHERE A.SEQ_BNO = #{seq_bno}
+		) AS R
+		WHERE RN > ( #{cri.pageNum} - 1) * #{cri.amount}
+		LIMIT #{cri.amount}
+	]]>
 	</select>
 </mapper>
