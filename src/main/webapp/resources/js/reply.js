@@ -34,7 +34,11 @@ var replyService = (function() {
 		$.getJSON("/replies/pages/"+seq_bno+"/"+page+".json",
 			function(data) {
 				if (callback) {
-					callback(data);
+					//callback(data); // 댓글 목록만 가져오는 경우
+					
+					// 댓글 숫자와 목록을 가져오는 경우
+					callback(data.replyCnt, data.list); 
+					
 				}
 			}).fail(function(xhr, status, err) {
 				if (error) {
