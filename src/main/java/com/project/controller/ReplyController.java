@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.domain.Criteria;
+import com.project.domain.ReplyPageDTO;
 import com.project.domain.ReplyVO;
 import com.project.service.ReplyService;
 
@@ -50,7 +51,7 @@ public class ReplyController {
 			produces = {
 					MediaType.APPLICATION_XML_VALUE,
 					MediaType.APPLICATION_JSON_UTF8_VALUE })
-	public ResponseEntity<List<ReplyVO>> getList (
+	public ResponseEntity<ReplyPageDTO> getList ( // List<ReplyVO>
 		@PathVariable("page") int page,
 		@PathVariable("seq_bno") Long seq_bno) {
 		
@@ -58,7 +59,8 @@ public class ReplyController {
 		Criteria cri = new Criteria(page, 10);
 		log.info(cri);
 		
-		return new ResponseEntity<>(service.getList(cri, seq_bno), HttpStatus.OK);
+		return 
+		new ResponseEntity<>(service.getListPage(cri, seq_bno), HttpStatus.OK);
 	}
 	
 	// 조회

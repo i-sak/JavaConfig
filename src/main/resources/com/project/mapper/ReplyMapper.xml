@@ -51,7 +51,7 @@
 	]]>
 	</select>
 	
-	<select id="getCountBySeq_bon">
+	<select id="getCountBySeq_bno" resultType="int">
 	<![CDATA[
 	SELECT COUNT(seq_rno) FROM tb_reply WHERE seq_bno = #{seq_bno}
 	]]>
