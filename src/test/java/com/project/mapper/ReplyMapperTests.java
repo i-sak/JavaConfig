@@ -76,8 +76,8 @@ public class ReplyMapperTests {
 	// 댓글 목록
 	@Test
 	public void testGetList() { 
-		Criteria cri = new Criteria();
-		List<ReplyVO> replies = mapper.getListWithPaging(cri, 777L);
+		Criteria cri = new Criteria(2, 10);
+		List<ReplyVO> replies = mapper.getListWithPaging(cri, 783L);
 		replies.forEach(reply -> log.info(reply));
 	}
 	

@@ -50,4 +50,10 @@
 		LIMIT #{cri.amount}
 	]]>
 	</select>
+	
+	<select id="getCountBySeq_bon">
+	<![CDATA[
+	SELECT COUNT(seq_rno) FROM tb_reply WHERE seq_bno = #{seq_bno}
+	]]>
+	</select>
 </mapper>

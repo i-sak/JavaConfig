@@ -22,4 +22,6 @@ public interface ReplyMapper {
 	public List<ReplyVO> getListWithPaging(
 			@Param("cri") Criteria cri,
 			@Param("seq_bno") Long seq_bno);
+	// 댓글의 숫자 파악
+	public int getCountBySeq_bno(Long seq_bno);
 }
