@@ -23,6 +23,18 @@ public class BoardServiceTests {
 	
 	@Setter(onMethod_ = @Autowired)
 	private BoardService service;
+	
+	@Test
+	public void testClass() {
+		log.info(service);
+		log.info(service.getClass().getName());
+	}
+	
+	@Test
+	public void testM() throws Exception {
+		Criteria cri = new Criteria(1, 10);
+		log.info(service.getList(cri));
+	}
 	/*
 	@Test
 	public void testExist() {
@@ -30,12 +42,12 @@ public class BoardServiceTests {
 		assertNotNull(service);
 	}
 	*/
-	
+	/*
 	@Test
 	public void testGetList() {
 		service.getList(new Criteria(2, 10)).forEach(board->log.info(board));
 	}
-	
+	*/
 	
 	/*
 	@Test
