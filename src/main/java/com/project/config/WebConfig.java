@@ -1,6 +1,7 @@
 package com.project.config;
 
 import javax.servlet.Filter;
+import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletRegistration;
 
 import org.springframework.web.filter.CharacterEncodingFilter;
@@ -27,6 +28,9 @@ extends AbstractAnnotationConfigDispatcherServletInitializer{
 	@Override
 	protected void customizeRegistration(ServletRegistration.Dynamic registration) {
 		registration.setInitParameter("throwExceptionIfNoHandlerFound", "true");
+		MultipartConfigElement multipartConfig = new
+				MultipartConfigElement("C:\\storage\\temp", 20971520, 41943040, 20971520);
+		registration.setMultipartConfig(multipartConfig);
 	}
 	
 	// 웹에서 등록될 때 한글 utf-8 허용 필터
@@ -38,6 +42,4 @@ extends AbstractAnnotationConfigDispatcherServletInitializer{
 		//return super.getServletFilters();
 		return new Filter[] { characterEncodingFilter };
 	}
-	
-
 }
