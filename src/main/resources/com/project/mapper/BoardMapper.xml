@@ -67,9 +67,10 @@
 	
 	<select id="getListWithPaging" resultType="com.project.domain.BoardVO">
 		<![CDATA[
-		SELECT seq_bno, title, content, writer, regdate, updatedate
+		SELECT seq_bno, title, content, writer, regdate, updatedate, replyCnt
 			FROM (
 			    SELECT @ROWNUM := @ROWNUM + 1 as rnum, seq_bno, title, content, writer, regdate, updatedate
+			    ,replyCnt
 			    FROM tb_board, (SELECT @ROWNUM :=0) A
 		]]>
 		<!--WHERE title LIKE '%테스트%' OR content LIKE '%등록%'-->
@@ -93,5 +94,9 @@
 			</trim>			
 		</where>
 	</select>
+	
+	<update id="updateReplyCnt">
+	update tb_board set replyCnt = replyCnt + #{amount}	where seq_bno = #{seq_bno}
+	</update>
 	
 </mapper>

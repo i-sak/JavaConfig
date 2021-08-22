@@ -30,7 +30,7 @@
                                         <th>title</th>
                                         <th>writer</th>
                                         <th>insertDate</th>
-                                        <th>updateDate/th>
+                                        <th>updateDate</th>
                                     </tr>
                                 </thead>
 								
@@ -40,6 +40,7 @@
 									<td>
 										<a class="move" href='<c:out value="${board.seq_bno }"/>'>
 											<c:out value="${board.title}" />
+											<b>[<c:out value="${board.replyCnt }"/>]</b>
 										</a>
 									</td>
 									<td><c:out value="${board.writer}" /></td>
