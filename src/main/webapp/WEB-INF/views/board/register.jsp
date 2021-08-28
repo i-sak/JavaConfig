@@ -71,4 +71,5 @@
 		</div>
 	</div>
 	
+	<!-- Javascript 처리 -->
 <%@include file="../includes/footer.jsp" %>

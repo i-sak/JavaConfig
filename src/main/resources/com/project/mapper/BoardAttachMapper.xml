@@ -13,7 +13,7 @@
 	delete from tb_attach where uuid = #{uuid}
 	</delete>
 	
-	<select id="findByBno" resultType="com.project.BoardAttachVO">
+	<select id="findByBno" resultType="com.project.domain.BoardAttachVO">
 	select * from tb_attach where seq_bno = #{seq_bno}	
 	</select>
 	
