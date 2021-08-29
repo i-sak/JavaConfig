@@ -121,7 +121,21 @@
 		// 생성된 이미지에 클릭 이벤트 위임하기 (delegate)
 		$(".uploadResult").on("click", "button", function(e) {
 			console.log("delete file");
+			var targetFile = $(this).data("file");
+			var type = $(this).data("type");
+			var targetLi = $(this).closest("li");
+			$.ajax({
+				url : '/deleteFile',
+				data : {fileName : targetFile, type : type},
+				dataType : 'text',
+				type : 'POST',
+				success : function(result) {
+					alert(result);
+					targetLi.remove();
+				}
+			});
 		});
+		
 	});
 	
 	function showUploadResult(uploadResultArr) {
