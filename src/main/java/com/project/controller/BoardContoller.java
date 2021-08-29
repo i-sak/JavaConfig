@@ -45,7 +45,12 @@ public class BoardContoller {
 	
 	@PostMapping("/register")
 	public String register(BoardVO board, RedirectAttributes rttr) {
+		log.info("==============================================");
 		log.info("register : " + board);
+		if(board.getAttachList() != null) {
+			board.getAttachList().forEach(attach -> log.info(attach));
+		}
+		log.info("==============================================");
 		service.register(board);
 		rttr.addFlashAttribute("result", board.getSeq_bno());
 		return "redirect:/board/list";

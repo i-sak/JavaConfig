@@ -4,9 +4,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.project.domain.BoardVO;
 import com.project.domain.Criteria;
+import com.project.mapper.BoardAttachMapper;
 import com.project.mapper.BoardMapper;
 
 import lombok.AllArgsConstructor;
@@ -15,19 +17,30 @@ import lombok.extern.log4j.Log4j;
 
 @Log4j
 @Service
-@AllArgsConstructor
+//@AllArgsConstructor
 public class BoardServiceImpl implements BoardService {
 
 	//spring 4.3 이상에서 자동 처리
+	//private BoardMapper mapper;
+	
+	@Setter(onMethod_ = @Autowired)
 	private BoardMapper mapper;
 	
-	//@Setter(onMethod_ = @Autowired)
-	//private BoardMapper mapper2;
+	@Setter(onMethod_ = @Autowired)
+	private BoardAttachMapper attachMapper;
 	
+	@Transactional
 	@Override
 	public void register(BoardVO board) {
-		log.info("[TEST] register");
+		log.info("register..."+ board);
 		mapper.insertSelectKey(board);
+		if(board.getAttachList() == null || board.getAttachList().size() <= 0 ) {
+			return;
+		}
+		board.getAttachList().forEach(attach -> {
+			attach.setSeq_bno(board.getSeq_bno());
+			attachMapper.insert(attach);
+		});
 	}
 
 	@Override

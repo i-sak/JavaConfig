@@ -5,8 +5,8 @@
 <mapper namespace="com.project.mapper.BoardAttachMapper">
 
 	<insert id="insert">
-	insert into tb_attach (uuid, uploadPath, fileName, filetype, seq_bno)
-	values (#{uuid}, #{uploadPath}, #{fileName}, #{filetype}, #{seq_bno})
+	insert into tb_attach (uuid, uploadPath, fileName, fileType, seq_bno)
+	values (#{uuid}, #{uploadPath}, #{fileName}, #{fileType}, #{seq_bno})
 	</insert>
 	
 	<delete id="delete">

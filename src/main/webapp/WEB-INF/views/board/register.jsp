@@ -77,6 +77,22 @@
 		$("button[type='submit']").on("click", function(e) {
 			e.preventDefault();
 			console.log("submit clicked");
+			var str = "";
+			$(".uploadResult ul li").each(function(i, obj) {
+				var jobj = $(obj);
+				console.dir(jobj);
+				
+				str += "<input type='hidden' name='attachList["+i+"].fileName' ";
+				str += "value='"+ jobj.data("filename")+"'>";
+				str += "<input type='hidden' name='attachList["+i+"].uuid' ";
+				str += "value='"+ jobj.data("uuid")+"'>";
+				str += "<input type='hidden' name='attachList["+i+"].uploadPath' ";
+				str += "value='"+ jobj.data("path")+"'>";
+				str += "<input type='hidden' name='attachList["+i+"].fileType' ";
+				str += "value='"+ jobj.data("type")+"'>";
+				
+			});
+			formObj.append(str).submit();
 		});
 		
 		var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
@@ -146,7 +162,8 @@
 			// image type
 			if(obj.fileType) {
 				var fileCellPath = encodeURIComponent(obj.uploadPath+"/s_"+obj.uuid+"_"+obj.fileName);
-				str += "<li><div>";
+				str += "<li data-path='"+obj.uploadPath+"' data-uuid='"+obj.uuid+"'";
+				str += " data-filename='"+obj.fileName+"' data-type='"+obj.fileType+"'><div>";
 				str += "<span>"+obj.fileName+"</span>";
 				str += "<button type='button' data-file='"+fileCellPath +"' data-type='image'" ;
 				str += " class='btn btn-warning btn-circle'>";
@@ -155,7 +172,8 @@
 			} else {
 				var fileCellPath = encodeURIComponent(obj.uploadPath+"/"+obj.uuid+"_"+obj.fileName);
 				var fileLink = fileCellPath.replace(new RegExp(/\\/g), "/");
-				str += "<li><div>";
+				str += "<li data-path='"+obj.uploadPath+"' data-uuid='"+obj.uuid+"'";
+				str += " data-filename='"+obj.fileName+"' data-type='"+obj.fileType+"'><div>";
 				str += "<span> " + obj.fileName + "</span>";
 				str += "<button type='button' data-file='"+fileCellPath +"' data-type='file'" ;
 				str += " class='btn btn-warning btn-circle'>";
