@@ -68,6 +68,23 @@
 	</div>
 	<!-- /.row -->
 	
+	<!-- file이 보여질 영역 -->
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="panel panel-default">
+				<div class="panel-heading">files</div>
+				<div class="panel-body">
+					<div class="uploadResult">
+						<ul>
+						
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /.row -->
+	
 	<!-- 댓글 영역 -->
 	<div class="row">
 		<div class="col-lg-12">
@@ -302,7 +319,7 @@
 			pageNum = targetPageNum;
 			
 			showList(pageNum);
-		});
+		});		
 	});
 	
 	/* 테스트 
@@ -373,5 +390,66 @@
 		});
 	});
 	</script>
-                 	 
+	
+	<script type="text/javascript">
+	// 파일 리스트를 가져오는 자동 동작 처리 작업
+	$(document).ready(function() {
+		(function() {
+			var seq_bno = '<c:out value="${board.seq_bno}"/>';
+			console.log(1)
+			$.getJSON("/board/getAttachList", {seq_bno : seq_bno}, function(arr){
+				console.log(arr);
+				var str = "";
+				$(arr).each(function(i, attach){
+					// image type
+					if(attach.fileType) {
+						var fileCellPath = encodeURIComponent(attach.uploadPath+"/s_"+attach.uuid+"_"+attach.fileName);
+						str += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"'";
+						str += " data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"'><div>";
+						str += "<img src='/display?fileName="+fileCellPath+"'></div></li>";
+					} else {
+						//var fileCellPath = encodeURIComponent(obj.uploadPath+"/"+obj.uuid+"_"+obj.fileName);
+						//var fileLink = fileCellPath.replace(new RegExp(/\\/g), "/");
+						str += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"'";
+						str += " data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"'><div>";
+						
+						str += "<span> " + attach.fileName + "</span>";
+						str += "<img src='/resources/img/attach.png'></div></li>";
+					}
+				});
+				$(".uploadResult ul").html(str);
+			}); // end getJson
+		})();
+		
+		// 첨부파일 클릭 이벤트
+		$(".uploadResult").on("click", "li", function(e){
+			console.log("view image");
+			var liObj = $(this);
+			var path = encodeURIComponent(liObj.data("path")+"/"+liObj.data("uuid")+"_"+liObj.data("filename"));
+			if(liObj.data("type")) {
+				showImage(path.replace(new RegExp(/\\/g), "/"));
+			} else {
+				// download
+				self.location = "/download?fileName="+path
+			}
+		});
+		function showImage(fileCellPath) {
+			alert(fileCellPath);
+			$("body").append("<div class='temp'><img src='/display?fileName="+fileCellPath+"'></div>")
+			setTimeout(function() {
+				$(".temp").remove();
+			}, 5000);
+		}
+		
+		// 원본 이미지 창 닫기
+		$("body").on("click", "div.temp", function(e){
+			$(this).remove();
+		});
+	});
+	</script>
+	<style>
+	div.uploadResult li { float: left; list-style: none; border: 1px gray solid; margin-right: 10px;}
+	div.uploadResult img {width : 100px; height: 100px; }
+	div.temp{z-index: 10; position: fixed; left : 200px; top : 50px;}
+	</style>
 <%@include file="../includes/footer.jsp" %>
