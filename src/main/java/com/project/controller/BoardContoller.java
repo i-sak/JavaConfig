@@ -1,5 +1,10 @@
 package com.project.controller;
 
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,8 +12,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.project.domain.BoardAttachVO;
 import com.project.domain.BoardVO;
 import com.project.domain.Criteria;
 import com.project.domain.PageDTO;
@@ -97,5 +104,14 @@ public class BoardContoller {
 		return "redirect:/board/list";
 		*/
 		return "redirect:/board/list" + cri.getListLink(); 
+	}
+	
+	@GetMapping(value="/getAttachList",
+			produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseBody
+	public ResponseEntity<List<BoardAttachVO>> getAttachList(Long seq_bno) {
+		log.info("getAttachList : "+seq_bno);
+		return new ResponseEntity<List<BoardAttachVO>>
+				(service.getAttachList(seq_bno),HttpStatus.OK);
 	}
 }
