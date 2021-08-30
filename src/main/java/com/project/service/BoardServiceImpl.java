@@ -55,15 +55,15 @@ public class BoardServiceImpl implements BoardService {
 		log.info("[TEST] modify");
 		return mapper.update(board) == 1;
 	}
-
+	
+	@Transactional
 	@Override
-	public boolean remove(Long bno) {
+	public boolean remove(Long seq_bno) {
 		log.info("[TEST] remove");
-		return mapper.delete(bno) == 1;
+		attachMapper.deleteAll(seq_bno);
+		return mapper.delete(seq_bno) == 1;
 	}
 
-
-	
 	/*
 	@Override
 	public List<BoardVO> getList() {

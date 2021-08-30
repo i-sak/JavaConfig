@@ -17,4 +17,8 @@
 	select * from tb_attach where seq_bno = #{seq_bno}	
 	</select>
 	
+	<delete id="deleteAll">
+	delete from tb_attach where seq_bno = #{seq_bno}
+	</delete>
+	
 </mapper>

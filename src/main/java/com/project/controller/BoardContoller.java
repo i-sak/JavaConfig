@@ -24,6 +24,8 @@ import com.project.service.BoardService;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 
+import java.nio.file.*;
+
 @Controller
 @Log4j
 @RequestMapping("/board/*")
@@ -93,9 +95,12 @@ public class BoardContoller {
 			@ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
 		
 		log.info("remove : " + seq_bno);
+		List<BoardAttachVO> attachList = service.getAttachList(seq_bno);
 		if(service.remove(seq_bno)) {
+			deleteFiles(attachList); // delete Attach Files
 			rttr.addFlashAttribute("result", "success");
 		}
+		return "redirect:/board/list" + cri.getListLink();
 		/*
 		rttr.addAttribute("pageNum", cri.getPageNum());
 		rttr.addAttribute("amount", cri.getAmount());
@@ -103,7 +108,6 @@ public class BoardContoller {
 		rttr.addAttribute("keyword", cri.getKeyword());
 		return "redirect:/board/list";
 		*/
-		return "redirect:/board/list" + cri.getListLink(); 
 	}
 	
 	@GetMapping(value="/getAttachList",
@@ -113,5 +117,25 @@ public class BoardContoller {
 		log.info("getAttachList : "+seq_bno);
 		return new ResponseEntity<List<BoardAttachVO>>
 				(service.getAttachList(seq_bno),HttpStatus.OK);
+	}
+	
+	private void deleteFiles(List<BoardAttachVO> attachList) {
+		if(attachList == null || attachList.size() == 0) return;
+		log.info(attachList);
+		
+		attachList.forEach(attach -> {
+			try {
+				Path file = Paths.get("C:\\storage\\"+attach.getUploadPath()+
+							"\\"+attach.getUuid()+"_"+attach.getFileName());
+				Files.deleteIfExists(file);
+				if(Files.probeContentType(file).startsWith("image")) {
+					Path thumbNail = Paths.get("C:\\storage\\"+attach.getUploadPath()+
+							"\\s_"+attach.getUuid()+"_"+attach.getFileName());
+					Files.delete(thumbNail);
+				}
+			} catch (Exception e) {
+				log.error("delete file error : "+e.getMessage());
+			}
+		});
 	}
 }
