@@ -84,7 +84,80 @@
 	</div>
 	<!-- /.row -->
 	
+	<!-- file이 보여질 영역 -->
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="panel panel-default">
+				<div class="panel-heading">files</div>
+				<div class="panel-body">
+					<div class="form-group uploadDiv">
+						<input type="file" name="uploadFile" multiple="multiple">
+					</div>
+					
+					<div class="uploadResult">
+						<ul>
+						
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /.row -->
+	
 	<script type="text/javascript">
+	// 해당 게시물에 저장된 파일 불러오기
+	$(document).ready(function() {
+		(function() {
+			var seq_bno = '<c:out value="${board.seq_bno}"/>';
+			
+			$.getJSON("/board/getAttachList", {seq_bno : seq_bno}, function(arr){
+				console.log(arr);
+				var str = "";
+				$(arr).each(function(i, attach){
+					// image type
+					if(attach.fileType) {
+						var fileCellPath = encodeURIComponent(attach.uploadPath+"/s_"+attach.uuid+"_"+attach.fileName);
+						str += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"'";
+						str += " data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"'><div>";
+						str += "<span>"+attach.fileName+"</span>";
+						str += "<button type='button' data-file='"+fileCellPath+"' data-type='image' ";
+						str += " class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
+						str += "<img src='/display?fileName="+fileCellPath+"'></div></li>";
+					} else {
+						var fileCellPath = encodeURIComponent(attach.uploadPath+"/"+attach.uuid+"_"+attach.fileName);
+						//var fileLink = fileCellPath.replace(new RegExp(/\\/g), "/");
+						str += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"'";
+						str += " data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"'><div>";
+						str += "<span>"+attach.fileName+"</span>";
+						str += "<button type='button' data-file='"+fileCellPath+"' data-type='file' "
+						str += " class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>"
+						str += "<img src='/resources/img/attach.png'></div></li>";
+					}
+				});
+				$(".uploadResult ul").html(str);
+			}); // end getJson
+		})();
+		
+		// 파일 삭제 버튼
+		$(".uploadResult").on("click", "button", function(e) {
+			console.log("delete file");
+			if (confirm("Remove this file ? ")) {
+				var targetLi = $(this).closest("li");
+				targetLi.remove();
+				
+			}
+		});
+	});
+	</script>
+	<style>
+	div.uploadResult li { float: left; list-style: none; border: 1px gray solid; margin-right: 10px;}
+	div.uploadResult img {width : 100px; height: 100px; }
+	/*div.temp{z-index: 10; position: fixed; left : 200px; top : 50px;}*/
+	</style>
+	
+	<script type="text/javascript">
+	// --------- 게시물 저장 ----------------------
 	$(document).ready(function() {
 		var formObj = $("form");
 		$('button').on("click", function(e) {

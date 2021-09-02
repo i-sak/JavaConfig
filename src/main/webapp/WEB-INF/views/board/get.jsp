@@ -396,7 +396,7 @@
 	$(document).ready(function() {
 		(function() {
 			var seq_bno = '<c:out value="${board.seq_bno}"/>';
-			console.log(1)
+			
 			$.getJSON("/board/getAttachList", {seq_bno : seq_bno}, function(arr){
 				console.log(arr);
 				var str = "";
