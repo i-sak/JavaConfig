@@ -66,9 +66,10 @@ public class UploadController {
 	@ResponseBody
 	public ResponseEntity<List<BoardAttachVO>>
 		uploadAjaxPost(MultipartFile[] uploadFile) {
+		
 		List<BoardAttachVO> list = new ArrayList<BoardAttachVO>();
 		String uploadFolder = "C:\\storage";
-
+		
 		String uploadFolderPath = getFolder();
 		// make folder
 		File uploadPath = new File(uploadFolder, getFolder());
