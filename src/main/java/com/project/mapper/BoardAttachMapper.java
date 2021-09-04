@@ -9,4 +9,5 @@ public interface BoardAttachMapper {
 	public void delete(String uuid);
 	public List<BoardAttachVO> findByBno(Long seq_bno);
 	public void deleteAll(Long seq_bno);
+	public List<BoardAttachVO> getOldFiles();
 }

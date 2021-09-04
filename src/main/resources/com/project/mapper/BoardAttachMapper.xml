@@ -21,4 +21,12 @@
 	delete from tb_attach where seq_bno = #{seq_bno}
 	</delete>
 	
+	<select id="getOldFiles" resultType="com.project.domain.BoardAttachVO">
+	SELECT * FROM tb_attach 
+	WHERE uploadPath = 
+	<!-- DATE_FORMAT( NOW(), '%Y\\%m\\%d') -->
+	DATE_FORMAT( DATE_ADD(NOW(), INTERVAL -1 day), '%Y\\%m\\%d')
+	</select>
+	
+	
 </mapper>
