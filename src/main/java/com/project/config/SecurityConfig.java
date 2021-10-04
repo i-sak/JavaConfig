@@ -75,8 +75,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/exam/member").access("hasRole('ROLE_MEMBER')");
 		http.formLogin()
 			.loginPage("/customLogin")
-			.loginProcessingUrl("/login")
-			.successHandler(loginSuccessHandler());
+			.loginProcessingUrl("/login");
+			// SaveRequestAwareAuthenticationSuccessHandler를 사용하는 경우 successHandler 주석
+			//.successHandler(loginSuccessHandler()); 
 		http.logout()
 			.logoutUrl("/customLogout")
 			.invalidateHttpSession(true)
@@ -95,4 +96,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		repo.setDataSource(dataSource);
 		return repo;
 	}
+	
+	
 }
