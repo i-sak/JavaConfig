@@ -114,6 +114,9 @@
 			return true;
 		}
 		
+		var csrfHeaderName = "${_csrf.headerName}";
+		var csrfTokenValue = "${_csrf.token}";
+		
 		$("input[type='file']").change(function(e) {
 			var formData = new FormData();
 			var inputFile = $("input[name='uploadFile']");
@@ -129,6 +132,9 @@
 				url : "/uploadAjaxAction",
 				processData : false,
 				contentType : false,
+				beforeSend : function(xhr) {
+					xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+				},
 				data : formData,
 				type : "POST",
 				dataType : 'json',
@@ -148,13 +154,16 @@
 			$.ajax({
 				url : '/deleteFile',
 				data : {fileName : targetFile, type : type},
+				beforeSend : function(xhr) {
+					xhr.setRequestHeader(csrfHeaderName, csrfTokenValue);
+				},
 				dataType : 'text',
 				type : 'POST',
 				success : function(result) {
 					alert(result);
 					targetLi.remove();
 				}
-			});
+			}); // $.ajax
 		});
 		
 	});

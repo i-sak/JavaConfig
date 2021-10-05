@@ -76,6 +76,7 @@ public class BoardContoller {
 		model.addAttribute("board", service.get(seq_bno));
 	}
 	
+	@PreAuthorize("principal.username == #board.writer")
 	@PostMapping("/modify")
 	public String modify(BoardVO board, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
 		log.info("modify:"+board);
@@ -93,9 +94,10 @@ public class BoardContoller {
 		return "redirect:/board/list" + cri.getListLink();
 	}
 	
+	@PreAuthorize("principal.username == #writer")
 	@PostMapping("/remove")
 	public String remove(@RequestParam("seq_bno") Long seq_bno,
-			@ModelAttribute("cri") Criteria cri, RedirectAttributes rttr) {
+			@ModelAttribute("cri") Criteria cri, RedirectAttributes rttr, String writer) {
 		
 		log.info("remove : " + seq_bno);
 		List<BoardAttachVO> attachList = service.getAttachList(seq_bno);

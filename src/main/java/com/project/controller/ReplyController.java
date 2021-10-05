@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,8 +31,8 @@ public class ReplyController {
 	
 	private ReplyService service;
 	
-	@PostMapping(value= "/new", 
-			consumes = "application/json",
+	@PreAuthorize("isAuthenticated()")
+	@PostMapping(value= "/new", consumes = "application/json",
 			produces = { MediaType.TEXT_PLAIN_VALUE})
 	public ResponseEntity<String> create(@RequestBody ReplyVO vo) {
 		log.info("ReplyVO: " + vo);
@@ -73,19 +74,22 @@ public class ReplyController {
 	}
 	
 	// 삭제
-	@DeleteMapping(value= "/{seq_rno}", produces = {MediaType.TEXT_PLAIN_VALUE})
-	public ResponseEntity<String> remove(@PathVariable("seq_rno") Long seq_rno) {
+	@PreAuthorize("principal.username == #vo.replyer")
+	@DeleteMapping(value= "/{seq_rno}") // , produces = {MediaType.TEXT_PLAIN_VALUE}
+	public ResponseEntity<String> remove(@RequestBody ReplyVO vo,
+			@PathVariable("seq_rno") Long seq_rno) {
 		log.info("remove : "+ seq_rno);
+		log.info("replyer : " + vo.getReplyer());
 		return service.remove(seq_rno) == 1
 				? new ResponseEntity<>("success", HttpStatus.OK)
 				: new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 	// 수정
+	@PreAuthorize("principal.username == #vo.replyer")
 	@RequestMapping(method = { RequestMethod.PUT, RequestMethod.PATCH },
 			value = "/{seq_rno}",
-			consumes = "application/json",
-			produces = {MediaType.TEXT_PLAIN_VALUE})
+			consumes = "application/json") // ,produces = {MediaType.TEXT_PLAIN_VALUE}
 	public ResponseEntity<String> modify(
 			@RequestBody ReplyVO vo,
 			@PathVariable("seq_rno") int seq_rno) {
