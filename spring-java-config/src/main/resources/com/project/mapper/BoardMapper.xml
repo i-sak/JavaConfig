@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.mapper.BoardMapper">
+
+	<select id="getList" resultType="com.project.domain.BoardVO">
+	<![CDATA[
+	select * from tb_board where seq_bno > 0
+	]]>
+	</select>
+
+	<insert id="insert">
+	insert into tb_board (TITLE, CONTENT, WRITER)
+	values (#{title}, #{content}, #{writer})
+	</insert>
+
+	<insert id="insertSelectKey">
+		<selectKey keyProperty="seq_bno" order="BEFORE"
+			resultType="long">
+			SELECT max(seq_bno) + 1 FROM tb_board 
+		</selectKey>
+		INSERT INTO tb_board (SEQ_BNO, TITLE, CONTENT, WRITER)
+		VALUES (#{seq_bno}, #{title}, #{content}, #{writer})
+	</insert>
+
+	<select id="read" resultType="com.project.domain.BoardVO">
+		select * from tb_board where seq_bno = #{seq_bno}
+	</select>
+	
+	<delete id="delete">
+		delete from tb_board where seq_bno = #{seq_bno}
+	</delete>
+
+	<update id="update">
+	
+		update tb_board
+		set title=#{title},
+			content=#{content},
+			writer=#{writer},
+			updateDate = curdate()
+		where seq_bno = #{seq_bno}
+	
+	</update>
+	
+	<sql id="criteria">
+		<where>
+			<trim prefixOverrides="OR">
+				<foreach item='type' collection="typeArr">
+					<trim prefix="OR">
+						<choose>
+							<when test="type == 'T'.toString() ">
+								title LIKE '%' #{keyword} '%'
+							</when>
+							<when test="type == 'C'.toString() ">
+								content like '%' #{keyword} '%'
+							</when>
+							<when test="type == 'W'.toString() ">
+								writer like '%' #{keyword} '%'
+							</when>
+						</choose>
+					</trim>
+				</foreach>
+			</trim>
+		</where>
+	</sql>
+	
+	<select id="getListWithPaging" resultType="com.project.domain.BoardVO">
+		<![CDATA[
+		SELECT seq_bno, title, content, writer, regdate, updatedate, replyCnt
+			FROM (
+			    SELECT @ROWNUM := @ROWNUM + 1 as rnum, seq_bno, title, content, writer, regdate, updatedate
+			    ,replyCnt
+			    FROM tb_board, (SELECT @ROWNUM :=0) A
+		]]>
+		<!--WHERE title LIKE '%테스트%' OR content LIKE '%등록%'-->
+		<include refid="criteria"></include>
+		<![CDATA[			    			    
+			    ORDER BY seq_bno DESC
+			    ) RESULT
+			WHERE rnum > (#{pageNum } - 1) * #{amount}
+			LIMIT #{amount}
+		]]>
+	</select>
+	
+	<select id="getTotalCount" resultType="int">
+		select count(*) from tb_board  
+		<where>
+			<trim prefix="and" prefixOverrides="where">
+				seq_bno > 0
+			</trim>
+			<trim prefix ="and" prefixOverrides="where">
+				<include refid="criteria"></include>
+			</trim>			
+		</where>
+	</select>
+	
+	<update id="updateReplyCnt">
+	update tb_board set replyCnt = replyCnt + #{amount}	where seq_bno = #{seq_bno}
+	</update>
+	
+</mapper>
